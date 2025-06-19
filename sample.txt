@@ -1,0 +1,13 @@
+[var]
+x = 42
+y = "Hello"
+
+[func]
+name: greet
+body: print("こんにちは")
+
+[class]
+name: MyClass
+base: 
+value = 100
+method: say|print("これはサンプルメソッドです")

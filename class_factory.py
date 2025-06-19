@@ -3,7 +3,7 @@ class ClassFactory:
         self.classes = {}
         self.instances = {}
 
-    def create_class(self, name, props, methods):
+    def create_class(self, name, props, methods, base_class_name=None):
         if not name.isidentifier():
             return False, "クラス名が無効です"
 
