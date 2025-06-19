@@ -40,7 +40,12 @@ class ClassFactory:
 
         # クラス作成
         try:
-            new_class = type(name, (object,), class_dict)
+            base_class = (
+                self.classes[base_class_name]
+                if base_class_name in self.classes
+                else object
+            )
+            new_class = type(name, (base_class,), class_dict)
             self.classes[name] = new_class
             self.instances[name] = new_class()
             return True, f"クラス {name} を作成しました"

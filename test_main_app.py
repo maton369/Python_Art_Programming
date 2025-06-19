@@ -54,6 +54,40 @@ class TestMainApp(unittest.TestCase):
         self.assertEqual(instance.x, 10)
         self.assertTrue(callable(getattr(instance, "show", None)))
 
+    def test_class_inheritance(self):
+        # 親クラスの定義
+        self.app.class_factory.classes.clear()
+        self.app.class_factory.instances.clear()
+        self.app.class_name.delete(0, tk.END)
+        self.app.prop_name.delete(0, tk.END)
+        self.app.prop_value.delete(0, tk.END)
+        self.app.method_name.delete(0, tk.END)
+        self.app.method_body.delete("1.0", tk.END)
+        self.app.class_name.insert(0, "BaseClass")
+        self.app.prop_name.insert(0, "val")
+        self.app.prop_value.insert(0, "42")
+        self.app.method_name.insert(0, "base_method")
+        self.app.method_body.insert("1.0", "print('base')")
+        self.app.add_class()
+
+        # 子クラスの定義（BaseClass を継承）
+        self.app.class_name.delete(0, tk.END)
+        self.app.base_class_name.delete(0, tk.END)
+        self.app.prop_name.delete(0, tk.END)
+        self.app.prop_value.delete(0, tk.END)
+        self.app.method_name.delete(0, tk.END)
+        self.app.method_body.delete("1.0", tk.END)
+        self.app.class_name.insert(0, "ChildClass")
+        self.app.base_class_name.insert(0, "BaseClass")
+        self.app.method_name.insert(0, "show_val")
+        self.app.method_body.insert("1.0", "print(self.val)")
+        self.app.add_class()
+
+        instance = self.app.class_factory.instances["ChildClass"]
+        self.assertTrue(hasattr(instance, "val"))
+        self.assertEqual(instance.val, 42)
+        self.assertTrue(callable(getattr(instance, "show_val", None)))
+
 
 if __name__ == "__main__":
     unittest.main()

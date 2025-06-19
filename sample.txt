@@ -1,13 +1,31 @@
 [var]
 x = 42
 y = "Hello"
+num = 123
+msg = "Python"
+lst = [1, 2, 3]
+dct = {"a": 1, "b": 2}
 
 [func]
 name: greet
 body: print("こんにちは")
 
+name: local_vars
+body: |
+    a = 10
+    b = 20
+    print("a+b:", a+b)
+
+name: side_effect
+body: |
+    tmp = 99
+    print("side effect:", tmp)
+
 [class]
 name: MyClass
 base: 
 value = 100
+text = "sample"
 method: say|print("これはサンプルメソッドです")
+method: show_value|print("value:", self.value)
+method: show_text|print("text:", self.text)
