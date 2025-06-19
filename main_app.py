@@ -39,12 +39,18 @@ class App:
         tk.Label(root, text="クラス名:").pack()
         self.class_name = tk.Entry(root, width=30)
         self.class_name.pack()
-        tk.Label(root, text="プロパティ定義（例: x = 10）:").pack()
-        self.class_props = scrolledtext.ScrolledText(root, height=4, width=50)
-        self.class_props.pack()
-        tk.Label(root, text="メソッド定義（def ～）:").pack()
-        self.class_methods = scrolledtext.ScrolledText(root, height=6, width=50)
-        self.class_methods.pack()
+        tk.Label(root, text="プロパティ名:").pack()
+        self.prop_name = tk.Entry(root, width=30)
+        self.prop_name.pack()
+        tk.Label(root, text="値:").pack()
+        self.prop_value = tk.Entry(root, width=30)
+        self.prop_value.pack()
+        tk.Label(root, text="メソッド名:").pack()
+        self.method_name = tk.Entry(root, width=30)
+        self.method_name.pack()
+        tk.Label(root, text="メソッドの中身 (複数行OK):").pack()
+        self.method_body = scrolledtext.ScrolledText(root, height=5, width=40)
+        self.method_body.pack()
         self.class_button = tk.Button(root, text="クラスを作成", command=self.add_class)
         self.class_button.pack(pady=5)
         self.class_button_frame = tk.Frame(root)
@@ -89,8 +95,17 @@ class App:
 
     def add_class(self):
         name = self.class_name.get().strip()
-        props = self.class_props.get("1.0", tk.END)
-        methods = self.class_methods.get("1.0", tk.END)
+        prop_name = self.prop_name.get().strip()
+        prop_value = self.prop_value.get().strip()
+        props = ""
+        if prop_name and prop_value:
+            props = f"{prop_name} = {prop_value}"
+        method_name = self.method_name.get().strip()
+        method_body = self.method_body.get("1.0", tk.END).strip()
+        methods = {}
+        if method_name and method_body:
+            methods[method_name] = method_body
+
         success, msg = self.class_factory.create_class(name, props, methods)
         if success:
             # 同名クラスのメソッドボタンをクリア
